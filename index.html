@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Robot Route Finder</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        input {
+            margin: 5px;
+        }
+        #output {
+            margin-top: 20px;
+        }
+        .station-input {
+            display: inline-block;
+            margin: 5px;
+        }
+        button {
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Find the Least Expensive Route for Your Robot</h1>
+
+    <div class="station-input">
+        <label for="start">Start Station:</label>
+        <input type="number" id="start" value="0">
+    </div>
+    <div class="station-input">
+        <label for="end">End Station:</label>
+        <input type="number" id="end" value="2">
+    </div>
+    <div class="station-input">
+        <label for="maxStops">Max Stops:</label>
+        <input type="number" id="maxStops" value="1">
+    </div>
+    <button onclick="findRoute()">Find Route</button>
+
+    <div id="output">
+        <p>Minimum Energy: <span id="minEnergy">N/A</span></p>
+        <p>Path: <span id="path">N/A</span></p>
+    </div>
+
+    <script>
+        async function findRoute() {
+            const start = parseInt(document.getElementById('start').value);
+            const end = parseInt(document.getElementById('end').value);
+            const maxStops = parseInt(document.getElementById('maxStops').value);
+
+            const response = await fetch('http://127.0.0.1:5000/find_route', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ start, end, max_stops: maxStops })
+            });
+
+            const result = await response.json();
+            if (response.ok) {
+                document.getElementById('minEnergy').innerText = result.energy_cost;
+                document.getElementById('path').innerText = result.path.join(' -> ');
+            } else {
+                document.getElementById('minEnergy').innerText = 'N/A';
+                document.getElementById('path').innerText = 'N/A';
+                alert(result.error || 'Error occurred while finding the route');
+            }
+        }
+    </script>
+
+</body>
+</html>

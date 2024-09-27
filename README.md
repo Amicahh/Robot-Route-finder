@@ -8,7 +8,7 @@ The **Robot Route Finder** is a web application that utilizes the Bellman-Ford a
 - Display the path taken to achieve the least expensive route.
 - User-friendly interface for inputting station details and viewing results.
 
-## Technologies Used
+## Used
 - Python (Flask)
 - HTML/CSS
 - JavaScript (AJAX for asynchronous requests)

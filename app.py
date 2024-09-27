@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from bellman_ford import RobotGrid  # Import the updated logic for pathfinding
+from bellman_ford import RobotGrid  
 
 app = Flask(__name__)
 CORS(app)
@@ -21,7 +21,7 @@ def find_route():
     end = int(data.get('end'))
     max_stops = int(data.get('max_stops'))
 
-    # Define the paths (make sure these are valid)
+    # Define the paths, make sure these are valid
     paths = [
         (0, 1, 100),
         (1, 2, 50),
